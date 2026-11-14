@@ -7,6 +7,7 @@ import {
   NursingBottleIcon,
   WheelchairIcon,
 } from './BrandAssets';
+import { ONEMAP_CONFIG } from '../config/onemap';
 
 interface MapCanvasProps {
   facilities: FacilityWithDistance[];
@@ -150,15 +151,25 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
   const geofenceLayerRef = useRef<L.LayerGroup | null>(null);
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
+  const hasMountedRef = useRef(false);
   const [isMobileLegendOpen, setIsMobileLegendOpen] = useState(false);
 
-  // Initialize Leaflet map once
+  // Initialize Leaflet map once centered on Singapore with restricted OneMap bounds
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) return;
 
+    const singaporeBounds = L.latLngBounds(
+      L.latLng(ONEMAP_CONFIG.bounds.southwest[0], ONEMAP_CONFIG.bounds.southwest[1]),
+      L.latLng(ONEMAP_CONFIG.bounds.northeast[0], ONEMAP_CONFIG.bounds.northeast[1])
+    );
+
     const map = L.map(mapContainerRef.current, {
-      center: [anchor.lat, anchor.lng],
-      zoom: 16,
+      center: [ONEMAP_CONFIG.center.lat, ONEMAP_CONFIG.center.lng],
+      zoom: ONEMAP_CONFIG.defaultZoom,
+      minZoom: ONEMAP_CONFIG.minZoom,
+      maxZoom: ONEMAP_CONFIG.maxZoom,
+      maxBounds: singaporeBounds,
+      maxBoundsViscosity: 1.0,
       zoomControl: false,
       attributionControl: true,
     });
@@ -188,7 +199,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     };
   }, []);
 
-  // Switch tile theme cleanly between light and dark CartoDB basemaps
+  // Switch tile theme cleanly between OneMap Default (Light) and Night (Dark) basemaps
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -197,25 +208,34 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       map.removeLayer(tileLayerRef.current);
     }
 
-    const tileUrl = isDark
-      ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-      : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    const singaporeBounds = L.latLngBounds(
+      L.latLng(ONEMAP_CONFIG.bounds.southwest[0], ONEMAP_CONFIG.bounds.southwest[1]),
+      L.latLng(ONEMAP_CONFIG.bounds.northeast[0], ONEMAP_CONFIG.bounds.northeast[1])
+    );
+
+    const tileUrl = isDark ? ONEMAP_CONFIG.tiles.dark : ONEMAP_CONFIG.tiles.light;
 
     const layer = L.tileLayer(tileUrl, {
-      attribution: '&copy; OpenStreetMap &copy; CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20,
+      attribution: ONEMAP_CONFIG.attribution,
+      minZoom: ONEMAP_CONFIG.minZoom,
+      maxZoom: ONEMAP_CONFIG.maxZoom,
+      bounds: singaporeBounds,
+      detectRetina: false,
     });
 
     layer.addTo(map);
     tileLayerRef.current = layer;
   }, [isDark]);
 
-  // Pan map when anchor or focusTrigger changes
+  // Pan map when user changes anchor, focusTrigger, or Nearby mode (preserve initial Singapore center zoom 12)
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
-    map.flyTo([anchor.lat, anchor.lng], isNearbyOnly ? 16 : 13, {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+    map.flyTo([anchor.lat, anchor.lng], isNearbyOnly ? 15 : ONEMAP_CONFIG.defaultZoom, {
       duration: 0.65,
     });
   }, [anchor.lat, anchor.lng, focusTrigger, isNearbyOnly]);

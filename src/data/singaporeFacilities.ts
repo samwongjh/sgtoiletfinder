@@ -1,5 +1,11 @@
 import { SingaporeHub } from '../types/facility';
 
+export const SINGAPORE_CENTER_ANCHOR = {
+  lat: 1.3521,
+  lng: 103.8198,
+  label: 'Singapore',
+};
+
 export const CLARKE_QUAY_ANCHOR = {
   lat: 1.2905,
   lng: 103.8466,

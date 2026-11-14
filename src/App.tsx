@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import {
   CLARKE_QUAY_ANCHOR,
+  SINGAPORE_CENTER_ANCHOR,
   estimateWalkMinutes,
   formatDistance,
   haversineDistanceMeters,
@@ -85,16 +86,16 @@ export default function App() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [fetchRevision, setFetchRevision] = useState<number>(0);
 
-  // Anchor / Location State
+  // Anchor / Location State (centered on Singapore 1.3521, 103.8198)
   const [anchor, setAnchor] = useState<{ lat: number; lng: number; label: string }>(
-    CLARKE_QUAY_ANCHOR
+    SINGAPORE_CENTER_ANCHOR
   );
   const [focusTrigger, setFocusTrigger] = useState(0);
   const [isLocating, setIsLocating] = useState(false);
 
   // Filters & Search
   const [searchQuery, setSearchQuery] = useState('');
-  const [isNearbyOnly, setIsNearbyOnly] = useState(true);
+  const [isNearbyOnly, setIsNearbyOnly] = useState(false);
   const [radiusMeters, setRadiusMeters] = useState(2000);
   const [activeFilters, setActiveFilters] = useState<FilterChipId[]>([]);
   const [sortBy, setSortBy] = useState<SortOption>('nearest');
@@ -109,8 +110,8 @@ export default function App() {
   // Add Pin Placement Flow
   const [isAddPinMode, setIsAddPinMode] = useState(false);
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
-    lat: CLARKE_QUAY_ANCHOR.lat,
-    lng: CLARKE_QUAY_ANCHOR.lng,
+    lat: SINGAPORE_CENTER_ANCHOR.lat,
+    lng: SINGAPORE_CENTER_ANCHOR.lng,
   });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
