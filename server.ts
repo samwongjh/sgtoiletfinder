@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import path from 'node:path';
 import restroomsHandler from './api/restrooms.ts';
+import healthHandler from './api/health.ts';
 
 async function startServer() {
   const app = express();
@@ -15,6 +16,10 @@ async function startServer() {
       },
       res
     );
+  });
+
+  app.get('/api/health', (req, res) => {
+    void healthHandler({ method: req.method }, res);
   });
 
   if (process.env.NODE_ENV !== 'production') {
