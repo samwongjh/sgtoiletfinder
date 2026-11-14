@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>sgtoilets — Urban Sanity &amp; Wayfinding</title>
+    <meta
+      name="description"
+      content="Find clean public toilets and drinking water fountains across Singapore with live crowd status, accessibility details, and instant walking directions."
+    />
+    <meta property="og:title" content="sgtoilets — Urban Sanity &amp; Wayfinding" />
+    <meta
+      property="og:description"
+      content="Find clean public toilets and drinking water fountains across Singapore with live crowd status, accessibility details, and instant walking directions."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="https://sgtoilets.web.app/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('sgtoilets_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-[#faf8ff] text-[#131b2e] dark:bg-[#0b1120] dark:text-slate-100 antialiased selection:bg-[#0D8B99]/20">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
