@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigation, ChevronRight } from 'lucide-react';
 import { FacilityWithDistance } from '../types/facility';
 import { formatDistance } from '../data/singaporeFacilities';
-import { AmenityBadge, CrowdBadge, FountainPinIcon, RatingScore } from './BrandAssets';
+import { AmenityBadge, CrowdBadge, RatingScore } from './BrandAssets';
 
 interface FacilityCardProps {
   facility: FacilityWithDistance;
@@ -33,12 +33,9 @@ export const FacilityCard: React.FC<FacilityCardProps> = ({
           onClick={() => onSelect(facility)}
           className="flex-1 min-w-0 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0D8B99] rounded-lg"
         >
-          <div className="flex items-center gap-2">
-            {facility.type === 'fountain' && <FountainPinIcon className="w-4 h-6 shrink-0" />}
-            <h3 className="text-sm sm:text-[15px] font-bold text-[#131b2e] dark:text-slate-100 leading-snug truncate">
-              {facility.name}
-            </h3>
-          </div>
+          <h3 className="text-sm sm:text-[15px] font-bold text-[#131b2e] dark:text-slate-100 leading-snug truncate">
+            {facility.name}
+          </h3>
           <p className="mt-1 text-xs font-medium text-slate-600 dark:text-slate-400 tabular-nums">
             {formatDistance(facility.distanceMeters)}
             <span aria-hidden="true"> · </span>

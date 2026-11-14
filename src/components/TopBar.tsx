@@ -72,7 +72,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               onFocus={() => setShowSuggestions(true)}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search MRT, mall, or Singapore district..."
-              aria-label="Search Singapore toilets and water fountains"
+              aria-label="Search Singapore public toilets"
               className="w-full bg-transparent text-sm font-medium text-[#131b2e] dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none"
             />
             {searchQuery && (

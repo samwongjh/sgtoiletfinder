@@ -1,6 +1,6 @@
 {
   "name": "sgtoilets — Urban Sanity & Wayfinding",
-  "description": "High-clarity public toilet and drinking water fountain finder across Singapore with live crowd indicators, cleanliness ratings, accessibility filters, and light/dark themes.",
+  "description": "High-clarity public toilet finder across Singapore with live crowd indicators, cleanliness ratings, accessibility filters, and light/dark themes.",
   "requestFramePermissions": ["geolocation"],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

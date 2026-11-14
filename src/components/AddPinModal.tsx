@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { X, Check } from 'lucide-react';
-import { AmenityTag, FacilityType } from '../types/facility';
-import { FountainPinIcon } from './BrandAssets';
+import { AmenityTag } from '../types/facility';
 
 interface AddPinModalProps {
   isOpen: boolean;
   coords: { lat: number; lng: number };
-  pinType: FacilityType;
-  onChangeType: (t: FacilityType) => void;
   onClose: () => void;
   onSubmit: (data: {
     name: string;
-    type: FacilityType;
     floorNote: string;
     district: string;
     amenities: AmenityTag[];
@@ -22,8 +18,6 @@ interface AddPinModalProps {
 export const AddPinModal: React.FC<AddPinModalProps> = ({
   isOpen,
   coords,
-  pinType,
-  onChangeType,
   onClose,
   onSubmit,
 }) => {
@@ -43,7 +37,6 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
     if (!name.trim()) return;
     onSubmit({
       name: name.trim(),
-      type: pinType,
       floorNote: floorNote.trim() || 'Ground floor public access',
       district: district.trim() || 'Singapore',
       amenities,
@@ -63,7 +56,7 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
       <div className="w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 shadow-2xl p-5 sm:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <h2 id="add-pin-title" className="text-lg font-extrabold text-[#131b2e] dark:text-slate-50">
-            Map New Facility
+            Map New Public Toilet
           </h2>
           <button
             type="button"
@@ -72,33 +65,6 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
             className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Type Toggle */}
-        <div className="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800">
-          <button
-            type="button"
-            onClick={() => onChangeType('toilet')}
-            className={`min-h-[42px] flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-colors ${
-              pinType === 'toilet'
-                ? 'bg-[#0D8B99] text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300'
-            }`}
-          >
-            <span>Public Toilet</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onChangeType('fountain')}
-            className={`min-h-[42px] flex items-center justify-center gap-2 rounded-xl text-xs font-bold transition-colors ${
-              pinType === 'fountain'
-                ? 'bg-[#059669] text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-300'
-            }`}
-          >
-            <FountainPinIcon className="w-3.5 h-5" />
-            <span>Drinking Bubbler</span>
           </button>
         </div>
 
@@ -116,11 +82,7 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={
-                pinType === 'toilet'
-                  ? 'e.g. Raffles City B1 Restroom'
-                  : 'e.g. Marina Promenade Water Point'
-              }
+              placeholder="e.g. Raffles City B1 Restroom"
               className="w-full h-11 px-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[#0D8B99]"
             />
           </div>
@@ -168,8 +130,8 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
               {(
                 [
                   { id: 'wheelchair', label: 'Wheelchair' },
-                  { id: 'baby-care', label: 'Baby Care' },
                   { id: 'nursing', label: 'Nursing Room' },
+                  { id: 'baby-care', label: 'Baby Changing' },
                   { id: 'bidet', label: 'Bidet' },
                   { id: 'free', label: 'Free Access' },
                   { id: '24h', label: '24 Hours' },
@@ -211,7 +173,7 @@ export const AddPinModal: React.FC<AddPinModalProps> = ({
               type="submit"
               className="flex-1 min-h-[44px] rounded-xl bg-[#0D8B99] hover:bg-[#0b7884] text-white text-sm font-semibold shadow-md transition-colors"
             >
-              Save Pin
+              Save Toilet
             </button>
           </div>
         </form>

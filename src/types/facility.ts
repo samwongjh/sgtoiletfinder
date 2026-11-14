@@ -1,4 +1,4 @@
-export type FacilityType = 'toilet' | 'fountain';
+export type FacilityType = 'toilet';
 
 export type CrowdLevel = 'low' | 'moderate' | 'busy';
 
@@ -6,16 +6,16 @@ export type AmenityTag =
   | 'wheelchair'
   | 'baby-care'
   | 'nursing'
+  | 'unisex'
   | 'bidet'
   | 'free'
   | '24h';
 
 export type FilterChipId =
-  | 'all'
-  | 'toilet'
-  | 'fountain'
   | 'wheelchair'
   | 'baby-care'
+  | 'nursing'
+  | 'bidet'
   | 'free'
   | '24h';
 
@@ -56,7 +56,8 @@ export interface Facility {
   feeText: string;
   hygiene: HygieneChecklist;
   reviews: Review[];
-  source: 'osm' | 'community';
+  source: 'refuge' | 'community';
+  distanceMetersFromApi?: number;
 }
 
 export interface FacilityWithDistance extends Facility {

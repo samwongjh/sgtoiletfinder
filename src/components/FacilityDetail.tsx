@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { CrowdLevel, FacilityWithDistance } from '../types/facility';
 import { formatDistance } from '../data/singaporeFacilities';
-import { AmenityBadge, CrowdBadge, FountainPinIcon, RatingScore } from './BrandAssets';
+import { AmenityBadge, CrowdBadge, RatingScore } from './BrandAssets';
 
 interface FacilityDetailProps {
   facility: FacilityWithDistance;
@@ -53,18 +53,12 @@ export const FacilityDetail: React.FC<FacilityDetailProps> = ({
     setTimeout(() => setSubmittedNotice(false), 3000);
   };
 
-  const hygieneItems =
-    facility.type === 'fountain'
-      ? [
-          { label: 'Clean Spout', ok: facility.hygiene.ventilation },
-          { label: 'Dry Surroundings', ok: facility.hygiene.dryFloor },
-        ]
-      : [
-          { label: 'Hand Soap', ok: facility.hygiene.soap },
-          { label: 'Toilet Paper', ok: facility.hygiene.tissue },
-          { label: 'Dry Floor', ok: facility.hygiene.dryFloor },
-          { label: 'Ventilation', ok: facility.hygiene.ventilation },
-        ];
+  const hygieneItems = [
+    { label: 'Hand Soap', ok: facility.hygiene.soap },
+    { label: 'Toilet Paper', ok: facility.hygiene.tissue },
+    { label: 'Dry Floor', ok: facility.hygiene.dryFloor },
+    { label: 'Ventilation', ok: facility.hygiene.ventilation },
+  ];
 
   const externalMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${facility.lat},${facility.lng}&travelmode=walking`;
 
@@ -88,20 +82,17 @@ export const FacilityDetail: React.FC<FacilityDetailProps> = ({
       <div className="flex-1 overflow-y-auto thin-scrollbar py-4 space-y-5 pr-1">
         {/* Title & Metadata */}
         <div>
-          <div className="flex items-start gap-2.5">
-            {facility.type === 'fountain' && <FountainPinIcon className="w-5 h-8 mt-0.5 shrink-0" />}
-            <div>
-              <h2 className="text-lg font-extrabold text-[#131b2e] dark:text-slate-50 leading-snug">
-                {facility.name}
-              </h2>
-              <p className="mt-1 text-xs font-medium text-slate-600 dark:text-slate-400 tabular-nums">
-                {formatDistance(facility.distanceMeters)}
-                <span aria-hidden="true"> · </span>
-                {facility.walkMinutes} min walk
-                <span aria-hidden="true"> · </span>
-                {facility.feeText}
-              </p>
-            </div>
+          <div>
+            <h2 className="text-lg font-extrabold text-[#131b2e] dark:text-slate-50 leading-snug">
+              {facility.name}
+            </h2>
+            <p className="mt-1 text-xs font-medium text-slate-600 dark:text-slate-400 tabular-nums">
+              {formatDistance(facility.distanceMeters)}
+              <span aria-hidden="true"> · </span>
+              {facility.walkMinutes} min walk
+              <span aria-hidden="true"> · </span>
+              {facility.feeText}
+            </p>
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
